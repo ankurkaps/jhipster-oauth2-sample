@@ -137,20 +137,36 @@ spring:
   mvc:
     problemdetails:
       enabled: true
+  # security:
+  #   oauth2:
+  #     client:
+  #       provider:
+  #         oidc:
+  #           issuer-uri: http://localhost:9080/realms/jhipster
+  #       registration:
+  #         oidc:
+  #           client-id: web_app
+  #           client-secret: web_app
+  #           scope: openid, profile, email, offline_access # last one for refresh tokens
+  #     resourceserver:
+  #       jwt:
+  #         principal-claim-name: preferred_username
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          audiences:
+          - ${AUDIENCE}
       client:
         provider:
           oidc:
-            issuer-uri: http://localhost:9080/realms/jhipster
+            issuer-uri: ${ISSUER_URI}
         registration:
           oidc:
-            client-id: web_app
-            client-secret: web_app
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
             scope: openid, profile, email, offline_access # last one for refresh tokens
-      resourceserver:
-        jwt:
-          principal-claim-name: preferred_username
+
   task:
     execution:
       thread-name-prefix: jhipster-sample-application-task-
@@ -219,6 +235,7 @@ jhipster:
       audience:
         - account
         - api://default
+        - ${AUDIENCE}
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
